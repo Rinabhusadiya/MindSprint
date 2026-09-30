@@ -1,0 +1,1047 @@
+/* ==========================================================================
+   MindSprint - Mobile App Layout & Universal Responsive System
+   Transforms the web experience into an ultra-smooth, premium native mobile app
+   ========================================================================== */
+
+/* Universal Native App Ergonomics */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: auto;
+}
+
+body {
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch feedback for clickable controls */
+button, a, input, select, .choice-btn, .filter-btn, .game-play-btn, .mobile-nav-item, .app-nav-item, .icon-btn {
+  touch-action: manipulation;
+}
+
+/* Allow effortless native vertical gesture scrolling on cards */
+.game-card, .category-pill-card, .stat-card, .profile-overview-card, .metric-box, .settings-card, .daily-hero-card {
+  touch-action: pan-y;
+}
+
+button:active, .btn-primary:active, .btn-battle:active, .btn-secondary:active, .btn-glass:active, .choice-btn:active {
+  transform: scale(0.96);
+  transition: transform 0.08s ease;
+}
+
+.container {
+  padding-left: max(1.1rem, env(safe-area-inset-left));
+  padding-right: max(1.1rem, env(safe-area-inset-right));
+}
+
+/* App View Smooth Transition */
+@keyframes appViewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.view-section.active {
+  animation: appViewEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   TABLET BREAKPOINT (max-width: 992px)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .site-header {
+    height: 62px;
+  }
+
+  /* Desktop nav hidden on tablet and mobile; bottom nav activates */
+  .main-nav {
+    display: none;
+  }
+
+  .hero-wrapper {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 2.8rem);
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .profile-overview-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .brain-score-meter {
+    text-align: left;
+  }
+
+  .profile-metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+/* ==========================================================================
+   MOBILE PHONES - NATIVE APP EXPERIENCE (max-width: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+
+  /* --- 1. App Header (Top App Bar - Always Fixed at Top) --- */
+  .site-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 58px;
+    z-index: 1000 !important;
+    background: var(--bg-glass-strong);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .main-content {
+    padding-top: 58px !important;
+  }
+
+  .header-inner {
+    padding: 0 0.25rem;
+  }
+
+  .brand-logo {
+    font-size: 1.25rem;
+    gap: 0.5rem;
+    font-weight: 800;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1.15rem;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.05rem;
+    border-radius: var(--radius-full);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .streak-badge {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    gap: 0.25rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+  }
+
+  /* --- 2. Mobile App Dock (Bottom Navigation Bar) --- */
+  .app-bottom-nav,
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-glass-strong);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border-top: 1px solid var(--border-subtle);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0.25rem 0.4rem;
+    padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+  }
+
+  .app-nav-item,
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.4rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex: 1;
+    text-align: center;
+    min-height: 46px;
+    position: relative;
+  }
+
+  .app-nav-item:active,
+  .mobile-nav-item:active {
+    transform: scale(0.92);
+  }
+
+  .app-nav-item .m-icon,
+  .mobile-nav-item .m-icon {
+    font-size: 1.3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 30px;
+    border-radius: var(--radius-full);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .app-nav-item.active,
+  .mobile-nav-item.active {
+    color: var(--primary-400);
+  }
+
+  .app-nav-item.active .m-icon,
+  .mobile-nav-item.active .m-icon {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(168, 85, 247, 0.22));
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+    transform: translateY(-2px) scale(1.1);
+  }
+
+  .app-nav-item.active .m-label,
+  .mobile-nav-item.active .m-label,
+  .mobile-nav-item.active span:last-child {
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  /* Padding at the bottom of all view sections so content is never hidden behind the dock */
+  .view-section {
+    padding-top: 1.25rem !important;
+    padding-bottom: 7.8rem !important;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* --- 3. Home Screen (App Dashboard) --- */
+  .hero-wrapper {
+    padding: 0.75rem 0 1.25rem;
+    text-align: center;
+  }
+
+  .hero-pill,
+  .hero-badge {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.76rem;
+    margin-bottom: 0.85rem;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+    line-height: 1.3;
+  }
+
+  .hero-title {
+    font-size: clamp(1.6rem, 5.2vw, 2.1rem);
+    letter-spacing: -0.025em;
+    line-height: 1.22;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 1.15rem;
+    padding: 0 0.25rem;
+  }
+
+  /* Quick Action Launch Grid (Fixed 2x2 Native App Tiles across all phones) */
+  .hero-cta-group {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.55rem !important;
+    width: 100% !important;
+    margin-bottom: 1.35rem !important;
+  }
+
+  .hero-cta-group button {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.6rem 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  /* Live Stats App Strip (Fixed 2x2 Native App Cards across all phones) */
+  .hero-stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.55rem !important;
+    margin-bottom: 1.5rem !important;
+    width: 100% !important;
+  }
+
+  .stat-card {
+    padding: 0.75rem 0.6rem;
+    border-radius: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+  }
+
+  .stat-card:active {
+    transform: scale(0.97);
+  }
+
+  .stat-icon-wrap {
+    width: 36px;
+    height: 36px;
+    font-size: 1.15rem;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .stat-value {
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin-top: 1px;
+  }
+
+  /* Category Shortcuts (2x2 App Tiles) */
+  .category-preview-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+
+  .category-pill-card {
+    padding: 1.1rem 0.75rem;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
+    transition: all 0.2s ease;
+  }
+
+  .category-pill-card:active {
+    transform: scale(0.96);
+  }
+
+  .category-pill-card .cat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .category-pill-card .cat-name {
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+
+  .category-pill-card .cat-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* --- 4. Games Catalog on Mobile --- */
+  .games-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .search-input-wrap {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .search-input {
+    height: 46px;
+    font-size: 0.95rem;
+    border-radius: var(--radius-full);
+    padding-left: 2.8rem;
+  }
+
+  /* Swipeable Horizontal Category Ribbon */
+  .filter-pills {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.45rem;
+    padding-bottom: 0.35rem;
+    padding-top: 0.1rem;
+    width: 100%;
+  }
+
+  .filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .filter-btn:active {
+    transform: scale(0.94);
+  }
+
+  /* App Game Cards */
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .game-card {
+    padding: 1.15rem;
+    border-radius: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .game-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .game-card-icon {
+    font-size: 2.2rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .game-card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 0.2rem 0;
+  }
+
+  .game-card-desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+
+  .game-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: auto;
+  }
+
+  .game-play-btn {
+    padding: 0.55rem 1.35rem;
+    font-size: 0.88rem;
+    font-weight: 800;
+    border-radius: var(--radius-full);
+    min-height: 42px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  }
+
+  /* --- 5. Brain Profile on Mobile --- */
+  .profile-overview-card {
+    padding: 1.35rem 1rem;
+    border-radius: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-user-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .profile-avatar {
+    width: 68px;
+    height: 68px;
+    font-size: 2.1rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.45);
+  }
+
+  .profile-name {
+    font-size: 1.45rem;
+    font-weight: 800;
+  }
+
+  .profile-rank {
+    font-size: 0.82rem;
+    padding: 0.25rem 0.85rem;
+  }
+
+  .brain-score-meter {
+    text-align: center;
+    background: var(--bg-surface);
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-subtle);
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .brain-score-meter .score {
+    font-size: 2.85rem;
+    font-weight: 900;
+    line-height: 1;
+    margin: 0.2rem 0;
+  }
+
+  .profile-metrics-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  .metric-card {
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+  }
+
+  /* --- 6. Daily Challenge View on Mobile --- */
+  .daily-hero-card {
+    padding: 1.35rem 1rem;
+    border-radius: 22px;
+  }
+
+  .daily-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .daily-games-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .daily-game-item {
+    padding: 0.95rem 0.85rem;
+    border-radius: 16px;
+  }
+
+  /* --- 7. Settings View on Mobile --- */
+  .settings-card {
+    padding: 1.25rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+
+  .setting-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding: 0.9rem 0;
+  }
+
+  .setting-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .setting-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .setting-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
+  .range-slider-wrap {
+    min-width: 135px;
+    width: auto;
+  }
+
+  /* --- 8. Immersive Full-Screen Game Arena (Modal) on Mobile --- */
+  .game-modal {
+    padding: 0 !important;
+    align-items: flex-end;
+  }
+
+  .game-modal-card {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    width: 100vw !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: var(--bg-surface) !important;
+  }
+
+  .game-modal-header {
+    padding: 0.55rem 0.85rem !important;
+    padding-top: max(0.55rem, env(safe-area-inset-top)) !important;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    flex-shrink: 0;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
+  }
+
+  .game-header-info {
+    order: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    max-width: calc(100% - 46px);
+    min-width: 0;
+  }
+
+  .game-header-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .game-header-icon {
+    font-size: 1.35rem;
+    flex-shrink: 0;
+  }
+
+  .modal-close-btn {
+    order: 2;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 1.15rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .modal-close-btn:active {
+    transform: scale(0.9);
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  .game-modal-stats {
+    order: 3;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.35rem !important;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .stat-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.28rem 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .stat-pill.timer {
+    min-width: 52px;
+  }
+
+  .game-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1.25rem 0.85rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+
+  .game-instructions-screen,
+  .game-board {
+    margin: auto 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Pre-game instructions screen */
+  .instructions-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .instructions-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+  }
+
+  .instructions-desc {
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+    line-height: 1.45;
+  }
+
+  .instructions-rules-box {
+    padding: 0.95rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+  }
+
+  .difficulty-selector {
+    gap: 0.45rem;
+    margin-bottom: 1.35rem;
+  }
+
+  .diff-btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+  }
+
+  /* Game Board Touch Targets */
+  .choice-btn {
+    min-height: 52px;
+    font-size: 1.2rem;
+    border-radius: 16px;
+  }
+
+  /* Result Screen */
+  .result-stars {
+    font-size: 2rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .result-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+  }
+
+  .result-stats-box {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0.95rem;
+    gap: 0.65rem;
+    border-radius: 18px;
+  }
+
+  .result-stat-item .val {
+    font-size: 1.35rem;
+    font-weight: 900;
+  }
+
+  .result-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.65rem;
+  }
+
+  .result-actions button {
+    width: 100%;
+    min-height: 50px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    border-radius: var(--radius-full);
+  }
+}
+
+/* ==========================================================================
+   EXTRA SMALL MOBILE (max-width: 380px)
+   Maintain the exact same 2x2 layout structure without warping or shifting
+   ========================================================================== */
+@media (max-width: 380px) {
+  .brand-text {
+    font-size: 1.15rem;
+  }
+
+  .streak-badge {
+    padding: 0.22rem 0.45rem;
+    font-size: 0.72rem;
+  }
+
+  .hero-cta-group button {
+    font-size: 0.76rem;
+    padding: 0.5rem 0.3rem;
+    min-height: 48px;
+  }
+
+  .stat-card {
+    padding: 0.65rem 0.45rem;
+    gap: 0.45rem;
+  }
+
+  .stat-icon-wrap {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.62rem;
+  }
+
+  .stat-value {
+    font-size: 1.05rem;
+  }
+
+  .app-bottom-nav,
+  .mobile-bottom-nav {
+    height: 58px;
+    padding: 0.2rem 0.2rem;
+  }
+
+  .app-nav-item,
+  .mobile-nav-item {
+    font-size: 0.66rem;
+    min-height: 42px;
+  }
+
+  .app-nav-item .m-icon,
+  .mobile-nav-item .m-icon {
+    font-size: 1.15rem;
+    width: 32px;
+    height: 26px;
+  }
+}
+
+/* ==========================================================================
+   LANDSCAPE MOBILE ORIENTATION (max-height: 500px)
+   ========================================================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .site-header {
+    height: 48px;
+  }
+
+  .game-modal-card {
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .game-modal-header {
+    padding: 0.35rem 0.75rem !important;
+  }
+
+  .game-modal-body {
+    padding: 0.6rem;
+    min-height: 200px;
+  }
+
+  .instructions-icon {
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .instructions-rules-box {
+    display: none;
+  }
+
+  .instructions-desc {
+    margin-bottom: 0.4rem;
+  }
+
+  .difficulty-selector {
+    margin-bottom: 0.6rem;
+  }
+
+  .mobile-bottom-nav {
+    height: 48px;
+  }
+}
+
+/* Desktop & Tablet Screens (min-width: 769px): Centered Floating Luxury App Dock */
+@media (min-width: 769px) {
+  .app-bottom-nav,
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    min-width: 480px;
+    height: 64px;
+    background: var(--bg-glass-strong);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-full);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35), 0 0 20px rgba(99, 102, 241, 0.25);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.35rem 1.25rem;
+  }
+
+  .app-nav-item,
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.15rem;
+    border-radius: var(--radius-full);
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-height: 44px;
+    flex: unset;
+  }
+
+  .app-nav-item:hover,
+  .mobile-nav-item:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface);
+  }
+
+  .app-nav-item.active,
+  .mobile-nav-item.active {
+    background: var(--primary-gradient);
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  }
+
+  .app-nav-item .m-icon,
+  .mobile-nav-item .m-icon {
+    font-size: 1.25rem;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    width: auto;
+    height: auto;
+  }
+
+  .app-nav-item.active .m-label,
+  .mobile-nav-item.active .m-label,
+  .mobile-nav-item.active span:last-child {
+    color: #ffffff !important;
+    font-weight: 800;
+  }
+
+  .view-section {
+    padding-bottom: 7.5rem !important;
+  }
+}
+
+/* Reduced Motion Mode */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  #bg-canvas {
+    display: none !important;
+  }
+}
+
+body.reduced-motion *, body.reduced-motion *::before, body.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>MindSprint | Professional Brain Training & Mind Exercises</title>
+  <meta name="description" content="Challenge your memory, focus, logic, speed and observation with fun daily brain exercises on MindSprint.">
+  <meta name="keywords" content="brain training, mind exercise, memory games, logic puzzles, reaction test, math games, speed typing">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MindSprint">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Background Particle Animation Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Confetti Canvas for High Scores & Rewards -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Floating Toast Notifications Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Application Shell -->
+  <div class="app-container">
+
+    <!-- Header & Navigation -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <!-- Logo -->
+        <a href="#home" class="brand-logo" data-nav="home" aria-label="MindSprint Home">
+          <div class="brand-icon">⚡️</div>
+          <div class="brand-text">Mind<span>Sprint</span></div>
+        </a>
+
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <div class="streak-badge" id="header-streak-badge" title="Daily workout streak">
+            <span class="fire-icon">🔥</span> 1 Day
+          </div>
+          <button class="icon-btn" id="sound-toggle-btn" title="Toggle Sound" aria-label="Toggle Sound">
+            🔊
+          </button>
+          <button class="icon-btn" id="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+            ☀️
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="main-content">
+
+      <!-- ============================================================
+           VIEW 1: HOME LANDING & DASHBOARD
+           ============================================================ -->
+      <section id="view-home" class="view-section active">
+        <div class="container">
+          
+          <!-- Hero Section -->
+          <div class="hero-wrapper">
+            <div class="hero-pill">
+              <span>🧠 Neuroplasticity Workout</span> • <span>12 Daily Cognitive Exercises</span>
+            </div>
+            <h1 class="hero-title">
+              Think Fast • <span class="gradient-text">Train Your Brain</span> • Have Fun
+            </h1>
+            <p class="hero-tagline">
+              Challenge your memory, focus, logic, speed and observation with scientifically inspired daily brain exercises designed for all ages.
+            </p>
+
+            <div class="hero-cta-group">
+              <button class="btn-primary" onclick="window.appNav.navigateTo('games')">
+                <span>Start Playing</span> 🚀
+              </button>
+              <button class="btn-secondary" onclick="window.gameEngine.openGame('mind_duel', false)" style="border-color: #ec4899; color: #ec4899;">
+                <span>⚔️ 1v1 vs Computer / 2P</span>
+              </button>
+              <button class="btn-secondary" onclick="window.appNav.navigateTo('daily')">
+                <span>Today's Challenge</span> 📅
+              </button>
+              <button class="btn-secondary btn-relax" onclick="window.gameEngine.openGame('memory_match', false)">
+                <span>🌿 Quick Relax</span>
+              </button>
+            </div>
+
+            <!-- Small Dashboard Metrics -->
+            <div class="hero-stats-grid">
+              <div class="stat-card purple">
+                <div class="stat-icon-wrap">⚡️</div>
+                <div>
+                  <div class="stat-label">Total Score</div>
+                  <div class="stat-value" id="dash-total-score">0</div>
+                </div>
+              </div>
+              <div class="stat-card blue">
+                <div class="stat-icon-wrap">🏆</div>
+                <div>
+                  <div class="stat-label">Best Single Score</div>
+                  <div class="stat-value" id="dash-best-score">0</div>
+                </div>
+              </div>
+              <div class="stat-card emerald">
+                <div class="stat-icon-wrap">🎮</div>
+                <div>
+                  <div class="stat-label">Games Played</div>
+                  <div class="stat-value" id="dash-games-played">0</div>
+                </div>
+              </div>
+              <div class="stat-card blue" style="--card-accent: #06b6d4;">
+                <div class="stat-icon-wrap" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">⏱️</div>
+                <div>
+                  <div class="stat-label">Time Trained</div>
+                  <div class="stat-value" id="dash-total-time">0s</div>
+                </div>
+              </div>
+              <div class="stat-card amber">
+                <div class="stat-icon-wrap">🔥</div>
+                <div>
+                  <div class="stat-label">Workout Streak</div>
+                  <div class="stat-value" id="dash-streak-count">1 Day</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cognitive Domains Quick Shortcuts -->
+          <div class="categories-preview-section">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Cognitive Training Categories</h2>
+                <p class="section-subtitle">Targeted mental workouts designed to sharpen specific brain faculties.</p>
+              </div>
+              <a href="#games" class="view-all-link" data-nav="games">
+                Explore All 13 Games <span>→</span>
+              </a>
+            </div>
+
+            <div class="category-preview-grid">
+              <div class="category-pill-card" data-cat-shortcut="battle" style="--cat-color: #ec4899;">
+                <div class="cat-icon">⚔️</div>
+                <div class="cat-name">1v1 Battle</div>
+                <div class="cat-count">vs AI & 2P</div>
+              </div>
+              <div class="category-pill-card" data-cat-shortcut="memory" style="--cat-color: #8b5cf6;">
+                <div class="cat-icon">🧠</div>
+                <div class="cat-name">Memory</div>
+                <div class="cat-count">3 Exercises</div>
+              </div>
+              <div class="category-pill-card" data-cat-shortcut="logic" style="--cat-color: #3b82f6;">
+                <div class="cat-icon">💡</div>
+                <div class="cat-name">Logic</div>
+                <div class="cat-count">3 Exercises</div>
+              </div>
+              <div class="category-pill-card" data-cat-shortcut="focus" style="--cat-color: #f59e0b;">
+                <div class="cat-icon">🎯</div>
+                <div class="cat-name">Focus</div>
+                <div class="cat-count">3 Exercises</div>
+              </div>
+              <div class="category-pill-card" data-cat-shortcut="speed" style="--cat-color: #ef4444;">
+                <div class="cat-icon">⚡️</div>
+                <div class="cat-name">Speed</div>
+                <div class="cat-count">2 Exercises</div>
+              </div>
+              <div class="category-pill-card" data-cat-shortcut="word" style="--cat-color: #10b981;">
+                <div class="cat-icon">🔤</div>
+                <div class="cat-name">Word</div>
+                <div class="cat-count">1 Exercise</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           VIEW 2: GAMES CATALOG
+           ============================================================ -->
+      <section id="view-games" class="view-section">
+        <div class="container">
+          
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Brain Training Library</h2>
+              <p class="section-subtitle">Select any workout below or filter by mental skill category.</p>
+            </div>
+          </div>
+
+          <!-- Filter Pills & Search Bar -->
+          <div class="games-toolbar">
+            <div class="filter-pills" role="tablist">
+              <button class="filter-btn active" data-category="all" role="tab">All (13)</button>
+              <button class="filter-btn" data-category="battle" role="tab">⚔️ 1v1 Battle (AI/2P)</button>
+              <button class="filter-btn" data-category="memory" role="tab">🧠 Memory</button>
+              <button class="filter-btn" data-category="logic" role="tab">💡 Logic</button>
+              <button class="filter-btn" data-category="focus" role="tab">🎯 Focus</button>
+              <button class="filter-btn" data-category="speed" role="tab">⚡️ Speed</button>
+              <button class="filter-btn" data-category="word" role="tab">🔤 Word</button>
+            </div>
+
+            <div class="search-input-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="games-search-input" placeholder="Search exercises..." aria-label="Search exercises">
+            </div>
+          </div>
+
+          <!-- Dynamic Games Grid (Populated by app.js) -->
+          <div class="games-grid" id="games-grid"></div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           VIEW 3: DAILY CHALLENGE
+           ============================================================ -->
+      <section id="view-daily" class="view-section">
+        <div class="container">
+          
+          <div class="daily-hero-card">
+            <div class="daily-header">
+              <div>
+                <span class="daily-date-pill" id="daily-date-label">Today</span>
+                <h2 style="font-size: 1.85rem; font-weight: 800; margin-top: 0.5rem;">Daily Mental Triathlon</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.25rem;">Complete 5 targeted workouts today to maintain your daily streak and earn +200 bonus points!</p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Daily Score</div>
+                <div style="font-size: 2.2rem; font-weight: 900; color: var(--primary-400);" id="daily-score-val">0</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="daily-progress-wrap">
+              <div class="daily-progress-labels">
+                <span>Routine Progress</span>
+                <span id="daily-progress-text">0 of 5 Exercises Done (0%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="daily-progress-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- Daily 5 Games List -->
+            <div class="daily-games-list" id="daily-games-list"></div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           VIEW 5: SETTINGS
+           ============================================================ -->
+      <section id="view-settings" class="view-section">
+        <div class="container settings-wrapper">
+          
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Preferences & Settings</h2>
+              <p class="section-subtitle">Customize themes, sounds, animations, and game preferences.</p>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <h3 class="settings-group-title">Display & Appearance</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Color Theme</div>
+                <div class="setting-desc">Switch between modern Dark slate and vibrant Light theme.</div>
+              </div>
+              <select id="setting-theme-select" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-subtle); font-family: inherit; font-size: 0.95rem;">
+                <option value="dark">Dark Theme</option>
+                <option value="light">Light Theme</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Background Particle Animation</div>
+                <div class="setting-desc">Smooth floating neural nodes and connection lines.</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-bg-anim-toggle" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Reduced Motion</div>
+                <div class="setting-desc">Disable decorative transitions for accessibility and comfort.</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-reduced-motion-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <h3 class="settings-group-title">Sound & Audio</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Master Sound Audio</div>
+                <div class="setting-desc">Synthesized musical feedback for clicks, success, and level completion.</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-sound-toggle" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Volume Level</div>
+                <div class="setting-desc">Adjust sound effect output volume.</div>
+              </div>
+              <div class="range-slider-wrap">
+                <input type="range" id="setting-volume-slider" class="range-slider" min="0" max="100" value="70">
+                <span class="slider-val-label" id="volume-val-label">70%</span>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Audio Output Test</div>
+                <div class="setting-desc">Preview a melody to verify speaker or headphone sound.</div>
+              </div>
+              <button class="btn-primary" id="btn-test-sound" style="padding: 0.5rem 1.25rem; font-size: 0.88rem; cursor: pointer;">
+                🔊 Play Test Sound
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <h3 class="settings-group-title">Gameplay Defaults</h3>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Default Workout Difficulty</div>
+                <div class="setting-desc">Affects initial timers and complexity for all exercises.</div>
+              </div>
+              <select id="setting-diff-select" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-subtle); font-family: inherit; font-size: 0.95rem;">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title">Player Name</div>
+                <div class="setting-desc">Player display name for workouts.</div>
+              </div>
+              <input type="text" id="setting-player-name" value="Brain Runner" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-subtle); font-family: inherit; font-size: 0.95rem; width: 160px; text-align: right;">
+            </div>
+          </div>
+
+          <div class="settings-card" style="border-color: rgba(239, 68, 68, 0.3);">
+            <h3 class="settings-group-title" style="color: #ef4444;">Danger Zone</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-title" style="color: #ef4444;">Reset All Progress & Scores</div>
+                <div class="setting-desc">Clear local high scores, streaks, and statistics.</div>
+              </div>
+              <button class="btn-danger" id="btn-reset-all-data">
+                Reset All Data
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- App Bottom Navigation Dock -->
+    <nav class="app-bottom-nav mobile-bottom-nav" aria-label="Main Navigation">
+      <a href="#home" class="app-nav-item mobile-nav-item active" data-nav="home">
+        <span class="m-icon">🏠</span>
+        <span class="m-label">Home</span>
+      </a>
+      <a href="#games" class="app-nav-item mobile-nav-item" data-nav="games">
+        <span class="m-icon">🎮</span>
+        <span class="m-label">Games</span>
+      </a>
+      <a href="#daily" class="app-nav-item mobile-nav-item" data-nav="daily">
+        <span class="m-icon">📅</span>
+        <span class="m-label">Daily</span>
+      </a>
+      <a href="#settings" class="app-nav-item mobile-nav-item" data-nav="settings">
+        <span class="m-icon">⚙️</span>
+        <span class="m-label">Settings</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- ============================================================
+       INTERACTIVE GAME MODAL ARENA
+       ============================================================ -->
+  <div id="game-modal" class="game-modal" role="dialog" aria-modal="true" aria-labelledby="game-header-title">
+    <div class="game-modal-card">
+      
+      <!-- Modal Header -->
+      <div class="game-modal-header">
+        <div class="game-header-info">
+          <span class="game-header-icon" id="game-header-icon">🎮</span>
+          <span class="game-header-title" id="game-header-title">Game Title</span>
+        </div>
+
+        <div class="game-modal-stats">
+          <div class="stat-pill lives" id="hud-lives-pill" title="Remaining Lives">
+            <span>Lives:</span> ❤️❤️❤️
+          </div>
+          <div class="stat-pill timer" id="hud-timer-pill" title="Time Remaining">
+            ⏱️ 15s
+          </div>
+          <div class="stat-pill score" id="hud-score-pill" title="Current Score">
+            Score: <strong>0</strong>
+          </div>
+          <div class="stat-pill combo" id="hud-combo-pill" style="display: none;" title="Streak Multiplier">
+            🔥 1x
+          </div>
+        </div>
+
+        <button class="modal-close-btn" id="modal-close-btn" title="Exit Game" aria-label="Exit Game">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body (Instructions, Game Board, Result) -->
+      <div class="game-modal-body" id="game-modal-body"></div>
+
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog Modal -->
+  <div id="dialog-confirm-modal" class="dialog-modal" role="dialog" aria-modal="true">
+    <div class="dialog-card">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h3>Reset All Progress?</h3>
+      <p style="color: var(--text-secondary);">This will permanently erase all your high scores, brain profile stats, and workout streaks from LocalStorage.</p>
+      <div class="dialog-actions">
+        <button class="btn-secondary" id="btn-dialog-cancel">Cancel</button>
+        <button class="btn-danger" id="btn-dialog-confirm-reset">Yes, Reset Everything</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript Modules -->
+  <script src="js/storage.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/dailyChallenge.js"></script>
+  <script src="js/gamesEngine.js"></script>
+
+  <!-- 12 Game Modules -->
+  <script src="js/games/numberPattern.js"></script>
+  <script src="js/games/memorySequence.js"></script>
+  <script src="js/games/findDifferent.js"></script>
+  <script src="js/games/quickMath.js"></script>
+  <script src="js/games/reactionTest.js"></script>
+  <script src="js/games/wordScramble.js"></script>
+  <script src="js/games/memoryMatch.js"></script>
+  <script src="js/games/logicPuzzle.js"></script>
+  <script src="js/games/focusChallenge.js"></script>
+  <script src="js/games/oddColor.js"></script>
+  <script src="js/games/numberMemory.js"></script>
+  <script src="js/games/typingSpeed.js"></script>
+  <script src="js/games/mindDuel.js"></script>
+
+  <!-- App Router & Controller -->
+  <script src="js/navigation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
